@@ -8,6 +8,7 @@
   box-sizing: border-box;
 }
 </style>
+<style src="./colorui.wxss"></style>
 
 <script>
 import wepy from 'wepy'
@@ -22,7 +23,8 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index'
+      'pages/index',
+      'pages/fuck'
     ],
     window: {
       backgroundTextStyle: 'light',

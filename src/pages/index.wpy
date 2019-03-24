@@ -22,6 +22,14 @@
       <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
     </view>
 
+    <view class="padding-xl">
+      <button class='cu-btn block line-orange lg'>
+        <text class='icon-upload'></text> 图标</button>
+      <button class='cu-btn block bg-blue margin-tb-sm lg' @tap="fuck">
+        <text class='icon-loading2 iconfont-spin'></text> 加载</button>
+      <button class='cu-btn block bg-black margin-tb-sm lg' loading> 微信加载</button>
+    </view>
+
     <panel>
       <view class="title" slot="title">测试数据绑定</view>
 
@@ -223,6 +231,9 @@
       counterEmit (...args) {
         let $event = args[args.length - 1]
         console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
+      },
+      fuck() {
+        this.$navigate('/pages/fuck')
       }
     }
 
