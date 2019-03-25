@@ -16,21 +16,75 @@
   }
 </style>
 <template>
-  <view class="container">
-    <view class="userinfo" @tap="handleViewTap">
-      <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
-      <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
+  <view>
+  <scroll-view scroll-x class="bg-red nav text-center">
+  <view class="cu-item {{index==TabCur?'text-white cur':''}}" wx:for="{{3}}" wx:key bindtap='tabSelect' data-id="{{index}}">
+    Camera{{index}}
+  </view>
+</scroll-view>  
+    <view class="cu-bar bg-white margin-top">
+      <view class='action'>
+        <text class='icon-title text-pink'>风险预览</text> 
+      </view>
+    </view>
+    <swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+      <swiper-item wx:for="{{4}}" wx:key>
+        <image src="https://image.weilanwl.com/img/4x3-{{index+1}}.jpg" mode='aspectFill'></image>
+      </swiper-item>
+    </swiper>
+
+    <view >
+      <button class='cu-btn block bg-red margin-tb-sm lg' @tap="detail">
+        <text class='text-white' >查看详情</text></button>
     </view>
 
-    <view class="padding-xl">
-      <button class='cu-btn block line-orange lg'>
-        <text class='icon-upload'></text> 图标</button>
-      <button class='cu-btn block bg-blue margin-tb-sm lg' @tap="fuck">
-        <text class='icon-loading2 iconfont-spin'></text> 加载</button>
-      <button class='cu-btn block bg-black margin-tb-sm lg' loading> 微信加载</button>
+    <view class="cu-bar bg-white margin-top">
+      <view class='action'>
+        <text class='icon-title text-pink'>行为预警</text> 
+      </view>
     </view>
+<view class="cu-card case {{isCard?'no-card':''}}">
+  <view wx:for="{{1}}" wx:key class="cu-item shadow">
+    <view class='image'>
+      <image src="https://image.weilanwl.com/img/4x3-1.jpg" mode="widthFix"></image>
+      <view class="cu-tag bg-red">危机事件</view>
+      <view class='cu-bar bg-shadeBottom'>你家主子摔倒没人管啦！</view>
+    </view>
+    <view class="cu-list menu menu-avatar">
+      <view class="cu-item">
+        <view class="cu-avatar round lg" style="background-image:url(https://image.weilanwl.com/img/square-4.jpg);"></view>
+        <view class='content flex-sub'>
+          <view class='text-grey'>Camera0</view>
+          <view class='text-gray text-sm flex justify-between'>
+            2019/3/26 1：58
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
 
-    <panel>
+<view class="cu-card case {{isCard?'no-card':''}}">
+  <view wx:for="{{1}}" wx:key class="cu-item shadow">
+    <view class='image'>
+      <image src="https://image.weilanwl.com/img/4x3-2.jpg" mode="widthFix"></image>
+      <view class="cu-tag bg-yellow">中等事件</view>
+      <view class='cu-bar bg-shadeBottom'>主子疑似昏厥</view>
+    </view>
+    <view class="cu-list menu menu-avatar">
+      <view class="cu-item">
+        <view class="cu-avatar round lg" style="background-image:url(https://image.weilanwl.com/img/square-4.jpg);"></view>
+        <view class='content flex-sub'>
+          <view class='text-grey'>Camera1</view>
+          <view class='text-gray text-sm flex justify-between'>
+            2019/3/26 2：12
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+    <!-- <panel>
       <view class="title" slot="title">测试数据绑定</view>
 
       <text class="info">{{normalTitle}}</text>
@@ -82,7 +136,7 @@
     <panel>
       <view class="title" slot="title">测试列表</view>
       <list></list>
-    </panel>
+    </panel> -->
 
     <toast />
   </view>
@@ -232,8 +286,8 @@
         let $event = args[args.length - 1]
         console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
       },
-      fuck() {
-        this.$navigate('/pages/fuck')
+      detail() {
+        this.$navigate('/pages/detail')
       }
     }
 

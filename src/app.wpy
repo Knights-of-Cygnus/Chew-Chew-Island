@@ -9,7 +9,7 @@
 }
 </style>
 <style src="./colorui.wxss"></style>
-
+<style src="./icon.wxss"></style>
 <script>
 import wepy from 'wepy'
 import 'wepy-async-function'
@@ -24,7 +24,7 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
-      'pages/fuck'
+      'pages/detail'
     ],
     window: {
       backgroundTextStyle: 'light',
