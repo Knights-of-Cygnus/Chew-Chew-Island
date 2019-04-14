@@ -14,17 +14,73 @@
   .userinfo-nickname {
     color: #aaa;
   }
+
+  [class*=animation-] {
+    animation-duration: .5s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both
+  }
+
+  .animation-shake {
+    animation-name: shake
+  }
+
+  @keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0)
+    }
+
+    10% {
+        transform: translateX(-9px)
+    }
+
+    20% {
+        transform: translateX(8px)
+    }
+
+    30% {
+        transform: translateX(-7px)
+    }
+
+    40% {
+        transform: translateX(6px)
+    }
+
+    50% {
+        transform: translateX(-5px)
+    }
+
+    60% {
+        transform: translateX(4px)
+    }
+
+    70% {
+        transform: translateX(-3px)
+    }
+
+    80% {
+        transform: translateX(2px)
+    }
+
+    90% {
+        transform: translateX(-1px)
+    }
+  }
+
+
 </style>
 <template>
   <view>
-  <scroll-view scroll-x class="bg-red nav text-center">
+  <scroll-view scroll-x class="bg-green nav text-center">
   <view class="cu-item {{index==TabCur?'text-white cur':''}}" wx:for="{{3}}" wx:key bindtap='tabSelect' data-id="{{index}}">
-    Camera{{index}}
+    Camera{{index+1}}
   </view>
-</scroll-view>  
+</scroll-view>
     <view class="cu-bar bg-white margin-top">
       <view class='action'>
-        <text class='icon-title text-pink'>风险预览</text> 
+        <text class='icon-title text-pink'>风险预览</text>
       </view>
     </view>
     <swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
@@ -34,109 +90,36 @@
     </swiper>
 
     <view >
-      <button class='cu-btn block bg-red margin-tb-sm lg' @tap="detail">
+      <button class='cu-btn block bg-red margin-tb-sm lg' bindtap='toggle' @tap="detail">
         <text class='text-white' >查看详情</text></button>
     </view>
 
     <view class="cu-bar bg-white margin-top">
       <view class='action'>
-        <text class='icon-title text-pink'>行为预警</text> 
+        <text class='icon-title text-pink'>行为预警</text>
       </view>
     </view>
-<view class="cu-card case {{isCard?'no-card':''}}">
+
+<view class="cu-card case {{isCard?'no-card':''}}" wx:for="{{caseInfo}}" wx:for-item="case" wx:key="caseInfo.title">
   <view wx:for="{{1}}" wx:key class="cu-item shadow">
     <view class='image'>
-      <image src="https://image.weilanwl.com/img/4x3-1.jpg" mode="widthFix"></image>
-      <view class="cu-tag bg-red">危机事件</view>
-      <view class='cu-bar bg-shadeBottom'>你家主子摔倒没人管啦！</view>
+      <image src="https://image.weilanwl.com/img/4x3-{{case.camera}}.jpg" mode="widthFix"></image>
+      <view class="cu-tag  {{case.level== '紧急'? 'bg-red':(case.level=='中等'?'bg-yellow':'bg-green') }}">{{case.level + '事件'}}</view>
+      <view class='cu-bar bg-shadeBottom'>{{case.title}}</view>
     </view>
     <view class="cu-list menu menu-avatar">
       <view class="cu-item">
         <view class="cu-avatar round lg" style="background-image:url(https://image.weilanwl.com/img/square-4.jpg);"></view>
         <view class='content flex-sub'>
-          <view class='text-grey'>Camera0</view>
+          <view class='text-grey'>Camera: {{case.camera}}</view>
           <view class='text-gray text-sm flex justify-between'>
-            2019/3/26 1：58
+            {{case.date}} {{case.time}}
           </view>
         </view>
       </view>
     </view>
   </view>
 </view>
-
-<view class="cu-card case {{isCard?'no-card':''}}">
-  <view wx:for="{{1}}" wx:key class="cu-item shadow">
-    <view class='image'>
-      <image src="https://image.weilanwl.com/img/4x3-2.jpg" mode="widthFix"></image>
-      <view class="cu-tag bg-yellow">中等事件</view>
-      <view class='cu-bar bg-shadeBottom'>主子疑似昏厥</view>
-    </view>
-    <view class="cu-list menu menu-avatar">
-      <view class="cu-item">
-        <view class="cu-avatar round lg" style="background-image:url(https://image.weilanwl.com/img/square-4.jpg);"></view>
-        <view class='content flex-sub'>
-          <view class='text-grey'>Camera1</view>
-          <view class='text-gray text-sm flex justify-between'>
-            2019/3/26 2：12
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-</view>
-    <!-- <panel>
-      <view class="title" slot="title">测试数据绑定</view>
-
-      <text class="info">{{normalTitle}}</text>
-      <text class="info">{{setTimeoutTitle}}</text>
-      <text class="info">{{mixin}}</text>
-      <text class="info">{{mynum}}</text>
-      <text class="info">{{now}}</text>
-      <text class="info">{{num}}</text>
-      <text class="info">{{asyncNum}}</text>
-      <text class="info">{{sumNum}}</text>
-      <button @tap="plus('a')" size="mini">  +  </button>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">其它测试</view>
-      <button @tap="toast" size="mini">第三方组件</button>
-      <button @tap="communicate" size="mini">组件通信</button>
-      <button @tap="tap" size="mini">混合TAP事件</button>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试并发网络请求</view>
-      <view>返回结果: <text>{{netrst}}</text></view>
-      <button @tap="request" size="mini"> 点我发起10个请求 </button>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试组件</view>
-
-      <text class="testcounter">计数组件1: </text>
-      <view class="counterview">
-        <counter1 @index-emit.user="counterEmit" />
-      </view>
-
-      <text class="testcounter">计数组件2: </text>
-
-      <view class="counterview">
-        <counter2 :num.sync="mynum"></counter2>
-      </view>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试组件Repeat</view>
-      <repeat for="" index="index" item="item" key="key">
-        <group :grouplist="item" :indexa="index"></group>
-      </repeat>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试列表</view>
-      <list></list>
-    </panel> -->
 
     <toast />
   </view>
@@ -183,6 +166,28 @@
     mixins = [testMixin]
 
     data = {
+      caseNum: 3,
+      caseInfo: [
+        {
+          title: '你家主子摔倒没人管啦！',
+          level: '紧急',
+          camera: 1,
+          date: '2019/3/26',
+          time: '1：58'
+        }, {
+          title: '主子疑似昏厥',
+          level: '中等',
+          camera: 2,
+          date: '2019/3/26',
+          time: '2：12'
+        }, {
+          title: '不铲屎怎么睡啊',
+          level: '休闲',
+          camera: 3,
+          date: '2019/3/26',
+          time: '3: 15'
+        }
+      ],
       mynum: 20,
       userInfo: {
         nickName: '加载中...'

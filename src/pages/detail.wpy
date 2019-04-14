@@ -1,12 +1,43 @@
 <template>
-  <text>正在开发中......</text>
+
+  <view class="cu-timeline" wx:for="{{time}}" wx:key="clock">
+  <view class="cu-time">{{date}}</view>
+  <view class="cu-item">
+    <view class="content bg-red light">
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-cyan">上午</view>
+        <view class="cu-tag line-cyan">{{item.clock}}</view>
+      </view>
+      <view class='margin-top'>一方面演员完全业余，而且限于自制短片的技术条件迫真演技不可避免，
+        另一方面似乎主创确实是想模仿香港无厘头喜剧，故意安排一些迫真桥段增加笑点。
+        个人觉得潮汕本篇的观赏性不见得比某些能上院线的乐色国产电影弱。
+        而且仍然有一些逻辑无法解释的奇妙情节保证了homo的生草量。
+      </view>
+    </view>
+  </view>
+  </view>
+
 </template>
 
 <script>
 import wepy from 'wepy'
 export default class extends wepy.page {
+  data = {
+    date: '06-17',
+    time: [{
+      clock: '10:50'
+    }, {
+      clock: '11:30'
+    }, {
+      clock: '15:45'
+    }]
+  };
+  config = {
+    navigationBarTitleText: 'Chew-Chew-Island'
+  }
 }
 </script>
 
 <style lang="css" scoped>
+
 </style>
