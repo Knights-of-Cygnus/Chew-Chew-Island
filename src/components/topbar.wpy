@@ -1,0 +1,72 @@
+<template>
+  <view>
+    <view class="bg-img bg-mask padding-tb-xl"
+          style="background-image: url('https://aabbaq.com/img/mainpage.f7b08f81.jpg');height: 200rpx;">
+      <view id="searchBox" class="cu-bar search">
+        <view class="search-form round">
+          <text id="searchIcon" class="cuIcon-search"></text>
+           <input id="searchBoxContent" class="bg-white" type="text" placeholder="搜索事件"
+             placeholder-class="text-gray"
+             confirm-type="search">
+           </input>
+        </view>
+        <view class="action">
+        <button class="cu-btn lines-white round" bindtap="showModal">搜索</button>
+      </view>
+      </view>
+    </view>
+
+    <view class="cu-modal {{dialog ? 'show': ''}}">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">抱歉</view>
+          <view class="action" bindtap="hideModal">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <view class="padding-xl">
+          搜索不到你要的结果
+        </view>
+        <view class="cu-bar bg-white justify-end">
+          <view class="action">
+            <!-- <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button> -->
+            <button class="cu-btn bg-green margin-left" bindtap="hideModal">确定</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class Topbar extends wepy.component {
+  data = {
+    dialog: false
+  }
+
+  methods = {
+    showModal() {
+      this.dialog = true
+      this.$apply()
+    },
+    hideModal() {
+      this.dialog = false
+      this.$apply()
+    }
+  }
+}
+</script>
+
+<style lang="css" scoped>
+#searchBox{
+  margin-top: 3%;
+  width: 100%;
+}
+#searchBoxContent{
+    border-radius: 12px;
+    min-height: 20px;
+    height: 30px;
+}
+</style>

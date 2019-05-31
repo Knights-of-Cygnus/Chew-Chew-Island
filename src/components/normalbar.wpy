@@ -1,0 +1,35 @@
+<template>
+<view>
+  <view class="bg-img bg-mask padding-tb-xl"
+        style="background-image: url('https://aabbaq.com/img/mainpage.f7b08f81.jpg');height: 150rpx;">
+        <view class="flex flex-wrap align-center">
+          <view id="back">
+            <button class="cu-btn line-red round shadow" @tap="backToMain()">返回</button>
+          </view>
+          <text id="chew" class="text-xxl  text-white">Défenseur Moniteur</text>
+        </view>
+  </view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class Normalbar extends wepy.component {
+  methods = {
+    backToMain() {
+      this.$emit('backMain', 1)
+    }
+  }
+}
+</script>
+
+<style lang="css" scoped>
+#chew{
+  line-height: 35px;
+  padding-left: 8%;
+}
+#back{
+  padding-left: 2%;
+}
+</style>

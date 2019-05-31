@@ -1,0 +1,26 @@
+<template>
+  <scroll-view scroll-y class="scrollPage">
+    <view class="bg-img bg-mask padding-tb-xl"
+          style="background-image: url('https://aabbaq.com/img/mainpage.f7b08f81.jpg');height: 150rpx;">
+          <view class="flex flex-wrap justify-center align-center">
+            <text id="pageTitle" class="text-xxl text-white">Défenseur Moniteur</text>
+          </view>
+    </view>
+  </scroll-view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class Userevent extends wepy.component {
+  data = {
+  }
+}
+</script>
+
+<style>
+#pageTitle
+{
+  line-height: 35px;
+}
+</style>

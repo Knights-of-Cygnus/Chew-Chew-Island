@@ -1,0 +1,188 @@
+<template>
+<view>
+  <normalbar></normalbar>
+  <view class="cu-item">
+    <view wx:if="{{haveDone!=-1}}" class="animation-fade" >
+      <view class="bg-white padding">
+        <view class="cu-steps">
+          <view wx:for="{{ numList }}" wx:key class="cu-item {{index<=num ? 'text-blue' : '' }}">
+            <text class="num {{index==2?'err':''}}" data-index="{{index + 1}}"></text>{{item.name}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="cu-card case {{isCard?'no-card':''}}">
+    <view class="cu-item shadow">
+      <view class='image'>
+        <image src="https://image.weilanwl.com/img/4x3-{{info.camera}}.jpg" mode="widthFix"></image>
+        <view class="cu-tag  {{info.level== '紧急'? 'bg-red':(info.level=='中等'?'bg-yellow':'bg-green') }}">{{info.level + '事件'}}</view>
+        <view class='cu-bar bg-shadeBottom'>{{info.title}}</view>
+      </view>
+      <view class="cu-list menu menu-avatar">
+
+        <view class="cu-item">
+          <view class="cu-avatar round lg" style="background-image:url(https://image.weilanwl.com/img/square-4.jpg);"></view>
+          <view class='content flex-sub'>
+            <view class='text-grey'>Camera: {{info.camera}}</view>
+            <view class='text-gray text-sm flex justify-between'>
+              {{info.date}} {{info.time}}
+            </view>
+          </view>
+        </view>
+
+
+        <view class="cu-form-group">
+      		<view class="title">忽略此事件</view>
+      		<switch  @change="ignore"></switch>
+      	</view>
+
+        <view class="cu-form-group">
+      		<view class="title">密切追踪</view>
+          <view>
+            <switch @change="numSteps" class="orange radius sm"></switch>
+          </view>
+      	</view>
+
+        <view class="cu-form-group">
+      		<view class="title">查看报告</view>
+      		<button class="cu-btn bg-green shadow" @tap="toDetail()">查看</button>
+      	</view>
+
+        <view wx:if="{{!isUrgent}}" class="cu-form-group">
+          <view class="title">紧急情况！</view>
+          <button class="cu-btn bg-red shadow" @tap="showModal()">立即处理</button>
+        </view>
+
+        <view wx:if="{{isUrgent}}" class="cu-form-group">
+      		<view class="title">地址选择</view>
+      		<picker mode="region" bindchange="RegionChange" value="{{region}}" custom-item="{{customItem}}">
+      			<view class="picker">
+      				{{region[0]}}，{{region[1]}}，{{region[2]}}
+      			</view>
+      		</picker>
+      	</view>
+
+        <view wx:if="{{isUrgent}}" class="cu-form-group">
+          <view class="title">紧急事件处理</view>
+          <button class="cu-btn bg-red shadow" @tap="dealUrgent()">报警</button>
+        </view>
+
+    </view>
+   </view>
+  </view>
+
+  <view class="cu-modal {{dialog ? 'show': ''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">确认为紧急事件吗？</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        请慎重决定
+      </view>
+      <view class="cu-bar bg-white justify-end">
+        <view class="action">
+          <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+          <button class="cu-btn bg-green margin-left" bindtap="urgent">确定</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import Normalbar from '../components/normalbar'
+
+export default class Bob extends wepy.page {
+  components = {
+    normalbar: Normalbar
+  }
+
+  data = {
+    region: ['广东省', '广州市', '海珠区'],
+    dialog: false,
+    isUrgent: false,
+    info: {},
+    numList: [{
+      name: '初始化'
+    }, {
+      name: '处理中'
+    }, {
+      name: '出现问题'
+    }, {
+      name: '处理完成'
+    }
+    ],
+    haveDone: 0,
+    num: 0
+  }
+
+  methods = {
+    numSteps(e) {
+      if (e.detail.value) {
+        this.num === this.numList.length - 1 ? this.num = 0 : this.num = 1
+        this.$apply()
+        console.log(this.num)
+      } else {
+        this.num = 0
+        this.$apply()
+      }
+    },
+    ignore(e) {
+      e.detail.value ? this.num = 3 : this.num = 0
+      this.$apply()
+      // this.$emit('eventDone', 1)
+    },
+    toDetail() {
+      this.$navigate({
+        url: '/pages/detail'
+      })
+    },
+    urgent() {
+      this.isUrgent = true
+      this.dialog = false
+      this.$apply()
+    },
+    showModal() {
+      this.dialog = true
+      this.$apply()
+    },
+    hideModal() {
+      this.dialog = false
+      this.$apply()
+    }
+  }
+
+  config = {
+    navigationBarTitleText: 'Chew-Chew-Island'
+  }
+
+  onLoad (params, data) {
+    this.info = data.preload.Info
+    console.log(this.info)
+  }
+
+  events = {
+    'backMain': e => {
+      this.$navigate({
+        url: '/pages/index'
+      })
+    }
+  }
+}
+</script>
+
+<style lang="css" scoped>
+.cu-form-group .title {
+  min-width: calc(4em + 30rpx);
+}
+</style>

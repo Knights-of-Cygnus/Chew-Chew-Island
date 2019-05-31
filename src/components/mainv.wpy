@@ -1,0 +1,105 @@
+<template>
+<scroll-view scroll-y class="scrollPage2">
+    <!-- <scroll-view scroll-x class="bg-green nav text-center ">
+      <view class="cu-item {{index==TabCur?'text-white cur':''}}" wx:for="{{3}}" wx:key bindtap='tabSelect' data-id="{{index}}">
+        Camera{{index+1}}
+      </view>
+    </scroll-view> -->
+    <view class="cu-bar bg-white ">
+      <view class='action'>
+        <text class='icon-title text-pink'>风险预览</text>
+      </view>
+    </view>
+    <swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+      <swiper-item wx:for="{{4}}" wx:key>
+        <image src="https://image.weilanwl.com/img/4x3-{{index+1}}.jpg" mode='aspectFill'></image>
+      </swiper-item>
+    </swiper>
+
+    <view >
+      <button class='cu-btn block bg-red margin-tb-sm lg' bindtap='toggle' @tap="detail()">
+        <text class='text-white' >查看详情</text></button>
+    </view>
+
+    <view class="cu-bar bg-white margin-top">
+      <view class='action'>
+        <text class='icon-title text-pink'>行为预警</text>
+      </view>
+    </view>
+
+  <view class="cu-card case {{isCard?'no-card':''}}" wx:for="{{caseInfo}}" wx:for-item="case" wx:key="caseInfo.title">
+    <view wx:for="{{1}}" wx:key class="cu-item shadow">
+      <view class='image'>
+        <image @tap="dosomething({{case.camera}})" src="https://image.weilanwl.com/img/4x3-{{case.camera}}.jpg" mode="widthFix"></image>
+        <view class="cu-tag  {{case.level== '紧急'? 'bg-red':(case.level=='中等'?'bg-yellow':'bg-green') }}">{{case.level + '事件'}}</view>
+        <view class='cu-bar bg-shadeBottom'>{{case.title}}</view>
+      </view>
+      <view class="cu-list menu menu-avatar">
+        <view class="cu-item">
+          <view class="cu-avatar round lg" style="background-image:url(https://image.weilanwl.com/img/square-4.jpg);"></view>
+          <view class='content flex-sub'>
+            <view class='text-grey'>Camera: {{case.camera}}</view>
+            <view class='text-gray text-sm flex justify-between'>
+              {{case.date}} {{case.time}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class Mainv extends wepy.component {
+  data = {
+    caseNum: 3,
+    caseInfo: [
+      {
+        title: '你家主子摔倒没人管啦！',
+        level: '紧急',
+        camera: 1,
+        date: '2019/3/26',
+        time: '1：58',
+        haveDone: false
+      }, {
+        title: '主子疑似昏厥',
+        level: '中等',
+        camera: 2,
+        date: '2019/3/26',
+        time: '2：12',
+        haveDone: false
+      }, {
+        title: '不铲屎怎么睡啊',
+        level: '休闲',
+        camera: 3,
+        date: '2019/3/26',
+        time: '3: 15',
+        haveDone: false
+      }
+    ],
+    pages: [
+      'mainv',
+      'sort',
+      'me'
+    ]
+  }
+
+  methods = {
+    detail() {
+      this.$emit('pageToDetail', 1)
+    },
+    dosomething(index) {
+      // console.log(e)
+      this.$emit('pageToDo', this.caseInfo[index - 1])
+    }
+  }
+}
+
+</script>
+
+<style>
+
+</style>

@@ -3,13 +3,16 @@
 	"setting": {
 		"urlCheck": true,
 		"es6": false,
-		"postcss": false,
-		"minified": false,
-		"newFeature": true
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"nodeModules": false,
+		"autoAudits": false
 	},
 	"compileType": "miniprogram",
 	"appid": "wx1a12aa4cdec7a486",
 	"projectname": "Chew-Chew-Island",
 	"miniprogramRoot": "dist/",
+	"libVersion": "2.7.0",
 	"condition": {}
 }

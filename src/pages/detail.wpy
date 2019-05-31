@@ -1,39 +1,54 @@
 <template>
-
+<view>
+  <normalbar></normalbar>
   <view class="cu-timeline" wx:for="{{time}}" wx:key="clock">
-  <view class="cu-time">{{date}}</view>
-  <view class="cu-item">
-    <view class="content bg-red light">
-      <view class="cu-capsule radius">
-        <view class="cu-tag bg-cyan">上午</view>
-        <view class="cu-tag line-cyan">{{item.clock}}</view>
-      </view>
-      <view class='margin-top'>一方面演员完全业余，而且限于自制短片的技术条件迫真演技不可避免，
-        另一方面似乎主创确实是想模仿香港无厘头喜剧，故意安排一些迫真桥段增加笑点。
-        个人觉得潮汕本篇的观赏性不见得比某些能上院线的乐色国产电影弱。
-        而且仍然有一些逻辑无法解释的奇妙情节保证了homo的生草量。
+    <view class="cu-time">{{date}}</view>
+    <view class="cu-item">
+      <view class="content bg-red light">
+        <view class="cu-capsule radius">
+          <view class="cu-tag bg-cyan">上午</view>
+          <view class="cu-tag line-cyan">{{item.clock}}</view>
+        </view>
+        <view class='margin-top'>{{item.text}}</view>
       </view>
     </view>
   </view>
-  </view>
-
+</view>
 </template>
 
 <script>
 import wepy from 'wepy'
-export default class extends wepy.page {
+import Normalbar from '../components/normalbar'
+
+export default class Detail extends wepy.page {
+  components = {
+    normalbar: Normalbar
+  }
+
   data = {
     date: '06-17',
     time: [{
-      clock: '10:50'
+      clock: '10:50',
+      text: '一方面演员完全业余，而且限于自制短片的技术条件迫真演技不可避免，另一方面似乎主创确实是想模仿香港无厘头喜剧，故意安排一些迫真桥段增加笑点。个人觉得潮汕本篇的观赏性不见得比某些能上院线的乐色国产电影弱。而且仍然有一些逻辑无法解释的奇妙情节保证了homo的生草量。'
     }, {
-      clock: '11:30'
+      clock: '11:30',
+      text: '不仅打翻了水杯，还把小鱼干偷吃了'
     }, {
-      clock: '15:45'
+      clock: '15:45',
+      text: '造孽啊，昨天新买的沙发，今天就多了几道猫爪印…猫就是一种喜欢到处乱挠东西的生物，铲屎的要有所觉悟。讲真，主子爱磨爪是有好处的。一是防止过长弯曲，影响行走和刺伤软萌肉垫；二是增强战斗力，保持爪子锋利，方便和其他猫猫狗狗打架。'
     }]
-  };
+  }
+
   config = {
     navigationBarTitleText: 'Chew-Chew-Island'
+  }
+
+  events = {
+    'backMain': e => {
+      this.$navigate({
+        url: '/pages/index'
+      })
+    }
   }
 }
 </script>

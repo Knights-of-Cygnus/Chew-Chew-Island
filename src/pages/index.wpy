@@ -1,324 +1,100 @@
 <style lang="less">
-  .userinfo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .userinfo-avatar {
-    width: 80rpx;
-    height: 80rpx;
-    border-radius: 50%;
-  }
-
-  .userinfo-nickname {
-    color: #aaa;
-  }
-
-  [class*=animation-] {
-    animation-duration: .5s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: both
-  }
-
-  .animation-shake {
-    animation-name: shake
-  }
-
-  @keyframes shake {
-
-    0%,
-    100% {
-        transform: translateX(0)
-    }
-
-    10% {
-        transform: translateX(-9px)
-    }
-
-    20% {
-        transform: translateX(8px)
-    }
-
-    30% {
-        transform: translateX(-7px)
-    }
-
-    40% {
-        transform: translateX(6px)
-    }
-
-    50% {
-        transform: translateX(-5px)
-    }
-
-    60% {
-        transform: translateX(4px)
-    }
-
-    70% {
-        transform: translateX(-3px)
-    }
-
-    80% {
-        transform: translateX(2px)
-    }
-
-    90% {
-        transform: translateX(-1px)
-    }
-  }
-
+#feet{
+   position: fixed;
+   bottom: 0px;
+   width: 100%;
+   margin-bottom: 0px;
+}
+.scrollPage {
+  height: 1500rpx;
+}
+.scrollPage2 {
+  height: 3000rpx;
+}
 
 </style>
+
 <template>
-  <view>
-  <scroll-view scroll-x class="bg-green nav text-center">
-  <view class="cu-item {{index==TabCur?'text-white cur':''}}" wx:for="{{3}}" wx:key bindtap='tabSelect' data-id="{{index}}">
-    Camera{{index+1}}
-  </view>
-</scroll-view>
-    <view class="cu-bar bg-white margin-top">
-      <view class='action'>
-        <text class='icon-title text-pink'>风险预览</text>
+<view>
+
+    <topbar wx:if="{{pageCur=='mainv'}}"></topbar>
+    <mainv wx:if="{{pageCur=='mainv'}}"></mainv>
+    <!-- <userevent wx:if="{{pageCur=='userevent'}}"></userevent> -->
+    <me wx:if="{{pageCur=='me'}}"></me>
+
+    <view id="feet" class="cu-bar tabbar margin-bottom-xl bg-black">
+      <view @tap="changeList(1)" class="action {{listNum==1?'text-orange':'text-gray'}}">
+        <view class="cuIcon-homefill"></view> 首页
       </view>
-    </view>
-    <swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
-      <swiper-item wx:for="{{4}}" wx:key>
-        <image src="https://image.weilanwl.com/img/4x3-{{index+1}}.jpg" mode='aspectFill'></image>
-      </swiper-item>
-    </swiper>
-
-    <view >
-      <button class='cu-btn block bg-red margin-tb-sm lg' bindtap='toggle' @tap="detail">
-        <text class='text-white' >查看详情</text></button>
-    </view>
-
-    <view class="cu-bar bg-white margin-top">
-      <view class='action'>
-        <text class='icon-title text-pink'>行为预警</text>
-      </view>
-    </view>
-
-<view class="cu-card case {{isCard?'no-card':''}}" wx:for="{{caseInfo}}" wx:for-item="case" wx:key="caseInfo.title">
-  <view wx:for="{{1}}" wx:key class="cu-item shadow">
-    <view class='image'>
-      <image src="https://image.weilanwl.com/img/4x3-{{case.camera}}.jpg" mode="widthFix"></image>
-      <view class="cu-tag  {{case.level== '紧急'? 'bg-red':(case.level=='中等'?'bg-yellow':'bg-green') }}">{{case.level + '事件'}}</view>
-      <view class='cu-bar bg-shadeBottom'>{{case.title}}</view>
-    </view>
-    <view class="cu-list menu menu-avatar">
-      <view class="cu-item">
-        <view class="cu-avatar round lg" style="background-image:url(https://image.weilanwl.com/img/square-4.jpg);"></view>
-        <view class='content flex-sub'>
-          <view class='text-grey'>Camera: {{case.camera}}</view>
-          <view class='text-gray text-sm flex justify-between'>
-            {{case.date}} {{case.time}}
-          </view>
+      <!-- <view @tap="changeList(2)" class="action {{listNum==2?'text-orange':'text-gray'}}">
+        <view class="cuIcon-similar"></view> 事件
+      </view> -->
+      <view @tap="changeList(2)" class="action {{listNum==4?'text-orange':'text-gray'}}">
+        <view class="cuIcon-my">
+          <!-- <view class="cu-tag badge"></view> -->
         </view>
+        我的
       </view>
     </view>
-  </view>
 </view>
-
-    <toast />
-  </view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import { connect } from 'wepy-redux'
-  import Panel from '@/components/panel' // alias example
-  import Counter from 'counter' // alias example
-  import List from '../components/list' // aliasFields example
-  import moduleA from 'module-a' // aliasFields ignore module example
-  import Group from '../components/group'
-  import Toast from 'wepy-com-toast'
-  import testMixin from '../mixins/test'
+import wepy from 'wepy'
+import Mainv from '../components/mainv'
+import Me from '../components/me'
+import Topbar from '../components/topbar'
+// import Userevent from '../components/userevent'
 
-  console.log('moduleA ignored: ', moduleA) // => moduleA ignored: {}
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: 'Chew-Chew-Island'
+  }
 
-  @connect({
-    num (state) {
-      return state.counter.num
+  components = {
+    mainv: Mainv,
+    me: Me,
+    topbar: Topbar
+    // userevent: Userevent
+  }
+
+  data = {
+    pageCur: 'mainv',
+    listNum: 1,
+    mynum: 20,
+    pages: [
+      'mainv',
+      // 'userevent',
+      'me'
+    ]
+  }
+
+  computed = {
+
+  }
+
+  methods = {
+    changeList(num) {
+      this.listNum = num
+      this.pageCur = this.pages[num - 1]
+      this.$apply()
+      console.log(this.pageCur)
+    }
+  }
+
+  events = {
+    'pageToDetail': e => {
+      this.$navigate({
+        url: '/pages/detail'
+      })
     },
-    asyncNum (state) {
-      return state.counter.asyncNum
-    },
-    sumNum (state) {
-      return state.counter.num + state.counter.asyncNum
-    }
-  })
-
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: 'Chew-Chew-Island'
-    }
-    components = {
-      panel: Panel,
-      counter1: Counter,
-      counter2: Counter,
-      list: List,
-      group: Group,
-      toast: Toast
-    }
-
-    mixins = [testMixin]
-
-    data = {
-      caseNum: 3,
-      caseInfo: [
-        {
-          title: '你家主子摔倒没人管啦！',
-          level: '紧急',
-          camera: 1,
-          date: '2019/3/26',
-          time: '1：58'
-        }, {
-          title: '主子疑似昏厥',
-          level: '中等',
-          camera: 2,
-          date: '2019/3/26',
-          time: '2：12'
-        }, {
-          title: '不铲屎怎么睡啊',
-          level: '休闲',
-          camera: 3,
-          date: '2019/3/26',
-          time: '3: 15'
-        }
-      ],
-      mynum: 20,
-      userInfo: {
-        nickName: '加载中...'
-      },
-      normalTitle: '原始标题',
-      setTimeoutTitle: '标题三秒后会被修改',
-      count: 0,
-      netrst: '',
-      groupList: [
-        {
-          id: 1,
-          name: '点击改变',
-          list: [
-            {
-              childid: '1.1',
-              childname: '子项，点我改变'
-            }, {
-              childid: '1.2',
-              childname: '子项，点我改变'
-            }, {
-              childid: '1.3',
-              childname: '子项，点我改变'
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: '点击改变',
-          list: [
-            {
-              childid: '2.1',
-              childname: '子项，点我改变'
-            }, {
-              childid: '2.2',
-              childname: '子项，点我改变'
-            }, {
-              childid: '2.3',
-              childname: '子项，点我改变'
-            }
-          ]
-        },
-        {
-          id: 3,
-          name: '点击改变',
-          list: [
-            {
-              childid: '3.1',
-              childname: '子项，点我改变'
-            }
-          ]
-        }
-      ]
-    }
-
-    computed = {
-      now () {
-        return +new Date()
-      }
-    }
-
-    methods = {
-      plus () {
-        this.mynum++
-      },
-      toast () {
-        let promise = this.$invoke('toast', 'show', {
-          title: '自定义标题',
-          img: 'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
-        })
-
-        promise.then((d) => {
-          console.log('toast done')
-        })
-      },
-      tap () {
-        console.log('do noting from ' + this.$name)
-      },
-      communicate () {
-        console.log(this.$name + ' tap')
-
-        this.$invoke('counter2', 'minus', 45, 6)
-        this.$invoke('counter1', 'plus', 45, 6)
-
-        this.$broadcast('index-broadcast', 1, 3, 4)
-      },
-      request () {
-        let self = this
-        let i = 10
-        let map = ['MA==', 'MQo=', 'Mg==', 'Mw==', 'NA==', 'NQ==', 'Ng==', 'Nw==', 'OA==', 'OQ==']
-        while (i--) {
-          wepy.request({
-            url: 'https://www.madcoder.cn/tests/sleep.php?time=1&t=css&c=' + map[i] + '&i=' + i,
-            success: function (d) {
-              self.netrst += d.data + '.'
-              self.$apply()
-            }
-          })
-        }
-      },
-      counterEmit (...args) {
-        let $event = args[args.length - 1]
-        console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
-      },
-      detail() {
-        this.$navigate('/pages/detail')
-      }
-    }
-
-    events = {
-      'index-emit': (...args) => {
-        let $event = args[args.length - 1]
-        console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
-      }
-    }
-
-    onLoad() {
-      let self = this
-      this.$parent.getUserInfo(function (userInfo) {
-        if (userInfo) {
-          self.userInfo = userInfo
-        }
-        self.normalTitle = '标题已被修改'
-
-        self.setTimeoutTitle = '标题三秒后会被修改'
-        setTimeout(() => {
-          self.setTimeoutTitle = '到三秒了'
-          self.$apply()
-        }, 3000)
-
-        self.$apply()
+    'pageToDo': caseInfo => {
+      this.$preload('Info', caseInfo)
+      this.$navigate({
+        url: '/pages/bob',
       })
     }
   }
+}
+
 </script>
